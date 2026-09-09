@@ -196,3 +196,16 @@ why env is live hide that from git
 3. Created .env.example safe template file.
 4. Committed and pushed changes (3586464) to main branch on GitHub (https://github.com/sikandar911/sasa.git). Repository working tree is clean.
 
+
+
+## Prompt Turn: 2026-09-10T01:54:00+06:00
+**User Prompt:**
+now write docker yml and docker neccesery files , the production port will be 3003. my deploy domain will be ajeer.qiwa-sa.info. also write a deploy.sh file which will be used to deploy this smoothly.. and i will use this database as productiond database, no new database
+
+**Actions & Resolution:**
+1. Created multi-stage production Dockerfile exposing container port 3003 with Next.js 14 and Prisma Client initialization.
+2. Created docker-compose.yml mapping host port 3003:3003 and referencing existing external PostgreSQL database URL (DATABASE_URL).
+3. Created .dockerignore file.
+4. Created deploy.sh automated deployment script for server deployment.
+5. Committed and pushed commit (47fc8f) to main branch on GitHub (https://github.com/sikandar911/sasa.git).
+
