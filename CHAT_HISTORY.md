@@ -184,3 +184,15 @@ warning: in the working copy of 'node_modules/.prisma/client/edge.js', LF will b
 2. Created .gitattributes file with * text=auto normalization.
 3. Staged, committed, and pushed changes to main branch on GitHub (https://github.com/sikandar911/sasa.git). Working tree is clean.
 
+
+
+## Prompt Turn: 2026-09-10T01:44:00+06:00
+**User Prompt:**
+why env is live hide that from git
+
+**Actions & Resolution:**
+1. Untracked .env from Git repository using git rm --cached .env (preserving local .env file on disk).
+2. Updated .gitignore with .env* exclusion patterns to prevent accidental staging.
+3. Created .env.example safe template file.
+4. Committed and pushed changes (3586464) to main branch on GitHub (https://github.com/sikandar911/sasa.git). Repository working tree is clean.
+
