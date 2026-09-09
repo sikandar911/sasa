@@ -245,3 +245,15 @@ what command to change the env
 2. Removed obsolete ersion: '3.8' from docker-compose.yml to prevent docker compose warning.
 3. Committed ( 75d30d) and pushed to main branch on GitHub (https://github.com/sikandar911/sasa.git).
 
+
+## Prompt Turn: 2026-09-10T02:11:00+06:00
+**User Prompt:**
+this automatic code generation number shouldnt be matched with previous any ajeer data during creating ajeer profile... make this sure.
+
+**Actions & Resolution:**
+1. Created backend API endpoint `/api/profiles/generate-permit-number` that queries the database and verifies generated codes against all existing permit numbers to guarantee 100% uniqueness without collision.
+2. Created backend API endpoint `/api/profiles/check-permit-number` for real-time validation if the user manually inputs or edits a permit number.
+3. Updated `AjeerProfileForm.tsx`: Automatically populates a unique code on form mount for new profiles and when clicking the "Automatic Code Generation" button.
+4. Displays real-time error banner and blocks form submission if any duplicate permit number is detected.
+5. Committed (`4d35632`) and pushed to `main` branch on GitHub (`https://github.com/sikandar911/sasa.git`).
+
