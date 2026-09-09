@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import { CheckCircle2, AlertCircle, Save, ExternalLink, QrCode, RefreshCw } from "lucide-react";
@@ -135,7 +135,10 @@ export default function AjeerProfileForm({
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        setError(data.message || "فشلت العملية، يرجى التحقق من البيانات");
+        const detailMsg = data.error
+          ? `${data.message || "حدث خطأ أثناء حفظ التصريح"}: ${data.error}`
+          : (data.message || "فشلت العملية، يرجى التحقق من البيانات");
+        setError(detailMsg);
         setLoading(false);
         return;
       }
@@ -143,7 +146,7 @@ export default function AjeerProfileForm({
       setCreatedProfile(data.data);
       if (onSuccess) onSuccess(data.data);
     } catch (err: any) {
-      setError("حدث خطأ أثناء حفظ الملف");
+      setError(`حدث خطأ أثناء الاتصال بالخادم: ${err.message || err}`);
     } finally {
       setLoading(false);
     }
