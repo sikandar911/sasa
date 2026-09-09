@@ -294,3 +294,24 @@ this shows while i am trying to save any ajeer profile .. and no network error c
 3. Verified production bundle compilation cleanly with 
 pm run build (all 9 routes generated).
 4. Committed (e302e9f) and pushed changes to main branch on GitHub (https://github.com/sikandar911/sasa.git).
+
+## Prompt Turn: 2026-09-10T02:40:00+06:00
+**User Prompt:**
+all good now write the nginx setyp
+
+**Actions & Resolution:**
+1. Created production Nginx reverse proxy configuration 
+ginx/ajeer.qiwa-sa.info.conf:
+   - Port 80 HTTP server block with ACME challenge webroot /.well-known/acme-challenge/ and permanent 301 HTTPS redirect.
+   - Port 443 HTTPS server block with Let's Encrypt certificates, HTTP/2 support, TLS 1.2/1.3, modern ciphers, and session cache.
+   - Reverse proxy to upstream 127.0.0.1:3003 with WebSocket upgrade headers, real IP forwarding (X-Real-IP, X-Forwarded-For, X-Forwarded-Proto).
+   - Long-term caching headers (max-age=31536000, immutable) for /_next/static/ and public assets.
+   - Gzip compression for text, JSON, CSS, JS, SVG assets.
+   - Security headers (X-Frame-Options, X-Content-Type-Options, Referrer-Policy).
+2. Created automated server setup script setup-nginx.sh:
+   - Verifies and installs Nginx and Certbot on Ubuntu/Debian.
+   - Provisions Let's Encrypt SSL certificate automatically.
+   - Links site to /etc/nginx/sites-available/ and /etc/nginx/sites-enabled/.
+   - Tests configuration with 
+ginx -t and reloads Nginx daemon.
+3. Committed (24bc139) and pushed changes to main branch on GitHub (https://github.com/sikandar911/sasa.git).
