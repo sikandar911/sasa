@@ -1,0 +1,28 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model AjeerProfile {
+  id                  String   @id @default(cuid())
+  permitNumber        String   @unique
+  permitType          String   @default("تصريح إعارة أجير")
+  startDate           String
+  endDate             String
+  workerName          String
+  iqamaNumber         String
+  nationality         String
+  occupation          String
+  gender              String   @default("ذكر")
+  birthDate           String   @default("-")
+  establishmentNumber String
+  establishmentName   String
+  status              String   @default("ساري / فعال")
+  token               String   @unique
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}

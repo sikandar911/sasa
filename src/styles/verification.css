@@ -1,0 +1,470 @@
+/* ==========================================================================
+   AJEER PERMIT VERIFICATION PAGE STYLES
+   Exact CSS implementation with refined, lighter typography matching reference
+   ========================================================================== */
+
+/* App Container */
+.qiwa-ajeer-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f7f8f7;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Frutiger LT Arabic', Tahoma, 'Cairo', Arial, sans-serif;
+  direction: rtl;
+  color: #071017;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --------------------------------------------------------------------------
+   Top Site Header (mainHeader)
+   -------------------------------------------------------------------------- */
+.mainHeader {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  width: 100%;
+}
+
+.mainHeader__top {
+  padding: 10px 32px;
+}
+
+.mainHeader__container {
+  width: 100%;
+  max-width: 100%;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mainHeader__logoContainer a {
+  display: flex;
+  align-items: center;
+}
+
+.mainHeader__logoContainer img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* --------------------------------------------------------------------------
+   App Body & Page Wrapper
+   -------------------------------------------------------------------------- */
+.appBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.verification-page {
+  background: #f7f8f7;
+  min-height: 70vh;
+  padding: 28px 14px 54px;
+}
+
+/* --------------------------------------------------------------------------
+   Verification Document Box
+   -------------------------------------------------------------------------- */
+.verification-document {
+  background: #fbfcfb;
+  border: 1px solid #cfd3d8;
+  color: #071017;
+  direction: rtl;
+  margin: 0 auto;
+  max-width: 1040px;
+}
+
+/* Header Table (3 columns: Logos [30%], Title [48%], Result [22%]) */
+.verification-header {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.verification-header td {
+  border: 1px solid #cfd3d8;
+  height: 126px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.verification-header__logos {
+  width: 30%;
+  padding: 0 16px;
+}
+
+.verification-header__title {
+  width: 48%;
+  padding: 0 16px;
+}
+
+.verification-header__result {
+  width: 22%;
+  padding: 0 16px;
+}
+
+.verification-title {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0;
+  color: #071017;
+  letter-spacing: -0.01em;
+}
+
+.verification-result {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  padding: 0 12px;
+}
+
+.verification-result--valid {
+  color: #176747;
+}
+
+.verification-logo {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.verification-logo--ajeer {
+  margin-left: 18px;
+  width: 74px;
+  height: auto;
+}
+
+.verification-logo--hrsd {
+  width: 160px;
+  height: auto;
+}
+
+/* Copy banner message */
+.verification-copy {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.9;
+  margin: 54px auto 32px;
+  max-width: 900px;
+  text-align: center;
+}
+
+.verification-copy p {
+  margin: 0;
+  color: #374151;
+}
+
+/* --------------------------------------------------------------------------
+   Verification Tables
+   -------------------------------------------------------------------------- */
+.verification-table {
+  border-collapse: collapse;
+  margin: 0 auto 0;
+  table-layout: fixed;
+  width: calc(100% - 34px);
+}
+
+.verification-table + .verification-table {
+  margin-top: 0;
+}
+
+.verification-table th,
+.verification-table td {
+  border: 1px solid #cfd3d8;
+  font-size: 16px;
+  line-height: 1.45;
+  padding: 10px 12px;
+  vertical-align: middle;
+  word-break: break-word;
+}
+
+.verification-table__section th {
+  background: #e9eeee;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 11px;
+  text-align: center;
+  color: #071017;
+}
+
+.verification-table__label {
+  background: #e9eeee;
+  font-weight: 400;
+  text-align: right;
+  width: 24%;
+  color: #5d686d;
+}
+
+.verification-table__value {
+  background: #fbfcfb;
+  font-weight: 500;
+  text-align: center;
+  width: 26%;
+  color: #071017;
+}
+
+/* Leave breathing room at the bottom of the card */
+.verification-document table:last-of-type {
+  margin-bottom: 34px;
+}
+
+/* --------------------------------------------------------------------------
+   Main Footer (Full Width Boxed, Large Logos)
+   -------------------------------------------------------------------------- */
+.mainFooter {
+  width: 100%;
+  background: #ffffff;
+  border-top: 1px solid #ebebeb;
+  direction: rtl;
+  padding: 36px 0 40px 0;
+  margin-top: auto;
+}
+
+.mainFooter__container {
+  width: 100%;
+  max-width: 100%;
+  padding: 0 40px;
+}
+
+.mainFooter__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+}
+
+/* Nav links column (Right in RTL) */
+.mainFooter__linksSection {
+  flex: 1;
+}
+
+.mainFooter__navGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  color: #1F2548;
+}
+
+.mainFooter__topNavTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1F2548;
+  margin-bottom: 12px;
+}
+
+.mainFooter__navCol p {
+  margin: 0 0 8px 0;
+}
+
+.mainFooter__topNavLink {
+  font-size: 14px;
+  font-weight: 400;
+  color: #1F2548;
+  text-decoration: none;
+  line-height: 1.8;
+  transition: color 0.15s ease;
+}
+
+.mainFooter__topNavLink:hover {
+  color: #007367;
+}
+
+.mainFooter__socialsContainer {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.mainFooter__socialsLink {
+  color: #1F2548;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.mainFooter__socialsLink:hover {
+  opacity: 0.7;
+}
+
+.mainFooter__mobileSeparator {
+  display: none;
+}
+
+/* Logos column (Left in RTL) */
+.mainFooter__logosSection {
+  display: flex;
+  align-items: center;
+}
+
+.mainFooter__desktopLogosGroup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.mainFooter__logoBox {
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+}
+
+.mainFooter__logoBox--tamkeen {
+  border-left: solid 1px #EBEBEB;
+  padding-left: 16px;
+}
+
+.mainFooter__logoBox img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+}
+
+.mainFooter__mobileLogosGroup {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile Responsive Breakpoint (< 760px)
+   Exact match to official Ajeer stylesheet
+   -------------------------------------------------------------------------- */
+@media (max-width: 760px) {
+  .mainHeader__top {
+    padding: 10px 16px;
+  }
+
+  .verification-page {
+    padding: 12px 8px 34px;
+  }
+
+  .verification-document {
+    border-width: 1px;
+  }
+
+  .verification-header,
+  .verification-header tbody,
+  .verification-header tr,
+  .verification-header td {
+    display: block;
+    width: 100%;
+  }
+
+  .verification-header td {
+    box-sizing: border-box;
+    height: auto;
+    padding: 18px 10px;
+  }
+
+  .verification-title {
+    font-size: 22px;
+  }
+
+  .verification-copy {
+    font-size: 15px;
+    margin: 28px 16px 20px;
+  }
+
+  .verification-table {
+    width: calc(100% - 16px);
+  }
+
+  .verification-table,
+  .verification-table tbody,
+  .verification-table tr,
+  .verification-table th,
+  .verification-table td {
+    display: block;
+  }
+
+  .verification-table th,
+  .verification-table td {
+    box-sizing: border-box;
+    text-align: right;
+    width: 100%;
+  }
+
+  .verification-table__value {
+    text-align: right;
+  }
+
+  .verification-document table:last-of-type {
+    margin-bottom: 16px;
+  }
+
+  /* Mobile Footer */
+  .mainFooter {
+    padding: 28px 0 34px 0;
+  }
+
+  .mainFooter__row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .mainFooter__navGrid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .mainFooter__mobileSeparator {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: #ebebeb;
+    border: none;
+    margin: 28px 0 24px 0;
+  }
+
+  .mainFooter__desktopLogosGroup {
+    display: none;
+  }
+
+  .mainFooter__mobileLogosGroup {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .mainFooter__mobileRightHalf {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    border-left: 2px solid #EBEBEB;
+    padding-left: 12px;
+    padding-right: 12px;
+    box-sizing: border-box;
+  }
+
+  .mainFooter__mobileLeftHalf {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 12px;
+    padding-right: 12px;
+    box-sizing: border-box;
+  }
+
+  .mainFooter__mobileLogoItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .mainFooter__mobileLogoItem img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}

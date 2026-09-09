@@ -1,0 +1,47 @@
+:root {
+  --primary: #007367;
+  --primary-hover: #005f55;
+  --secondary: #2d2766;
+  --success: #059669;
+  --success-bg: #ecfdf5;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --border-color: #e2e8f0;
+  --bg-page: #f8fafc;
+  --bg-card: #ffffff;
+  --table-header-bg: #eef2f6;
+  --table-label-bg: #f8fafc;
+  --font-arabic: 'Cairo', 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Tahoma, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-arabic);
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  direction: rtl;
+  text-align: right;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+}
