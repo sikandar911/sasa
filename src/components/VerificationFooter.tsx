@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { Phone, Send, Twitter } from "lucide-react";
+﻿import Image from "next/image";
 
 export default function VerificationFooter() {
   return (
@@ -10,9 +9,9 @@ export default function VerificationFooter() {
             {/* Links Column (Right in RTL) */}
             <div className="mainFooter__linksSection">
               <div className="mainFooter__navGrid">
-                {/* 1. أجير */}
+                {/* 1. عن أجير */}
                 <div className="mainFooter__navCol">
-                  <div className="mainFooter__topNavTitle">أجير</div>
+                  <div className="mainFooter__topNavTitle">عن أجير</div>
                   <p>
                     <a href="https://ajeer.qiwa.sa/about" className="mainFooter__topNavLink">
                       عن أجير
@@ -40,9 +39,9 @@ export default function VerificationFooter() {
                   </p>
                 </div>
 
-                {/* 3. الشروط و الخصوصية */}
+                {/* 3. الشروط و الأحكام */}
                 <div className="mainFooter__navCol">
-                  <div className="mainFooter__topNavTitle">الشروط و الخصوصية</div>
+                  <div className="mainFooter__topNavTitle">الشروط و الأحكام</div>
                   <p>
                     <a href="https://ajeer.qiwa.sa/terms" className="mainFooter__topNavLink">
                       الشروط والأحكام
@@ -58,28 +57,50 @@ export default function VerificationFooter() {
                 {/* 4. تواصل معنا */}
                 <div className="mainFooter__navCol">
                   <div className="mainFooter__topNavTitle">تواصل معنا</div>
-                  <div className="mainFooter__socialsContainer">
+                  <p className="mainFooter__socialsContainer" style={{ display: "flex", gap: "12px", alignItems: "center", marginTop: "8px" }}>
                     <a
-                      href="tel:920011040"
-                      aria-label="تواصل معنا عبر الهاتف 920011040"
-                      className="mainFooter__socialsLink"
+                      href="https://twitter.com/AjeerSA"
+                      className="mainFooter__socialsLink d-inline-block px-2"
                     >
-                      <Phone size={20} />
+                      <img
+                        src="/images/x-twitter.svg"
+                        alt="X"
+                        style={{ width: "1.4rem", height: "1.45rem", display: "block" }}
+                      />
                     </a>
                     <a
                       href="mailto:support@ajeer.com.sa"
                       aria-label="تواصل معنا عبر البريد الإلكتروني support@ajeer.com.sa"
-                      className="mainFooter__socialsLink"
+                      className="mainFooter__socialsLink d-inline-block px-2"
                     >
-                      <Send size={20} />
+                      <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="#1F2548"
+                        xmlns="http://www.w3.org/2000/svg"
+                        style={{ display: "block" }}
+                      >
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                      </svg>
                     </a>
                     <a
-                      href="https://twitter.com/AjeerSA"
-                      className="mainFooter__socialsLink"
+                      href="tel:920011040"
+                      aria-label="تواصل معنا عبر الهاتف 920011040"
+                      className="mainFooter__socialsLink d-inline-block px-2"
                     >
-                      <Twitter size={20} />
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="#1F2548"
+                        xmlns="http://www.w3.org/2000/svg"
+                        style={{ display: "block" }}
+                      >
+                        <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1.003 1.003 0 011.02-.24c1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                      </svg>
                     </a>
-                  </div>
+                  </p>
                 </div>
               </div>
             </div>
