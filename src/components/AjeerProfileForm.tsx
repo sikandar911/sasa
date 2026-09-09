@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
-import { useState } from "react";
-import { CheckCircle2, AlertCircle, Save, ExternalLink, QrCode } from "lucide-react";
+import { useState, useEffect } from "react";
+import { CheckCircle2, AlertCircle, Save, ExternalLink, QrCode, RefreshCw } from "lucide-react";
 
 interface ProfileFormData {
   id?: string;
@@ -43,20 +43,70 @@ export default function AjeerProfileForm({
     endDate: initialData?.endDate || "2026-12-03",
     establishmentNumber: initialData?.establishmentNumber || "1-4564178",
     establishmentName: initialData?.establishmentName || "شركة ديفباور للمقاولات العامة",
-    permitNumber: initialData?.permitNumber || "TW0583162",
-    permitType: initialData?.permitType || "تصريح إعارة أجير",
+    permitNumber: initialData?.permitNumber || "",
+    permitType: initialData?.permitType || "تصريح إعارة مؤقت",
     gender: initialData?.gender || "ذكر",
     birthDate: initialData?.birthDate || "-",
-    status: initialData?.status || "ساري / فعال",
+    status: initialData?.status || "ساري / مؤكد",
   });
 
   const [loading, setLoading] = useState(false);
+  const [generatingCode, setGeneratingCode] = useState(false);
+  const [codeError, setCodeError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [createdProfile, setCreatedProfile] = useState<any>(null);
+
+  // Function to fetch guaranteed unique permit number from database
+  const generateUniqueCode = async () => {
+    try {
+      setGeneratingCode(true);
+      setCodeError(null);
+      const res = await fetch("/api/profiles/generate-permit-number");
+      const data = await res.json();
+      if (data.success && data.permitNumber) {
+        setFormData((prev) => ({ ...prev, permitNumber: data.permitNumber }));
+      } else {
+        setCodeError("فشل في توليد كود فريد من قاعدة البيانات");
+      }
+    } catch (err) {
+      setCodeError("خطأ في الاتصال أثناء التوليد");
+    } finally {
+      setGeneratingCode(false);
+    }
+  };
+
+  // Automatically generate unique code on mount for NEW profiles if empty
+  useEffect(() => {
+    if (!isEditing && !formData.permitNumber) {
+      generateUniqueCode();
+    }
+  }, [isEditing]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Real-time validation for manually typed permit number
+  const handlePermitNumberChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setFormData((prev) => ({ ...prev, permitNumber: val }));
+
+    if (val.trim().length >= 4) {
+      try {
+        const res = await fetch(
+          `/api/profiles/check-permit-number?code=${encodeURIComponent(val.trim())}&excludeId=${initialData?.id || ""}`
+        );
+        const data = await res.json();
+        if (data.exists) {
+          setCodeError("⚠️ رقم التصريح هذا مستخدم مسبقاً، يرجى اختيار رقم آخر");
+        } else {
+          setCodeError(null);
+        }
+      } catch (_) {}
+    } else {
+      setCodeError(null);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -64,6 +114,13 @@ export default function AjeerProfileForm({
     setLoading(true);
     setError(null);
     setCreatedProfile(null);
+
+    // Ensure permit number is not duplicate before submitting
+    if (codeError) {
+      setError("يرجى حل تعارض رقم التصريح أولاً");
+      setLoading(false);
+      return;
+    }
 
     try {
       const url = isEditing ? `/api/profiles/${initialData?.id}` : "/api/profiles";
@@ -78,7 +135,7 @@ export default function AjeerProfileForm({
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        setError(data.message || "فشلت العملية، يرجى التأكد من صحة البيانات");
+        setError(data.message || "فشلت العملية، يرجى التحقق من البيانات");
         setLoading(false);
         return;
       }
@@ -86,7 +143,7 @@ export default function AjeerProfileForm({
       setCreatedProfile(data.data);
       if (onSuccess) onSuccess(data.data);
     } catch (err: any) {
-      setError("حدث خطأ في الاتصال بالخادم");
+      setError("حدث خطأ أثناء حفظ الملف");
     } finally {
       setLoading(false);
     }
@@ -95,34 +152,40 @@ export default function AjeerProfileForm({
   return (
     <div className="admin-card">
       <div className="form-header">
-        <h3>{isEditing ? "تعديل تصريح أجير" : "الوحدة الأولى: إنشاء تصريح أجير (Create Ajeer Profile)"}</h3>
+        <h3>{isEditing ? "تعديل ملف أجير" : "الوحدة الأولى: إنشاء ملف أجير (Create Ajeer Profile)"}</h3>
         <p>
-          يرجى إدخال البيانات حسب التسلسل المحدد (4، 5، 6، 7، 2، 3، 8، 9، 1). يتم حفظ وإرسال البيانات باللغة العربية.
+          يرجى إدخال البيانات حسب التسلسل المحدد (4، 5، 6، 7، 2، 3، 8، 9، 1). سيتم ربط جميع البيانات بالرمز الموحد.
         </p>
       </div>
 
       {error && (
-        <div className="alert-error" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <div className="alert alert-danger">
           <AlertCircle size={18} />
           <span>{error}</span>
         </div>
       )}
 
       {createdProfile && (
-        <div className="alert-success" style={{ textAlign: "right" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px", fontWeight: "700" }}>
-            <CheckCircle2 size={20} />
-            <span>تم {isEditing ? "تحديث" : "إنشاء"} تصريح أجير بنجاح!</span>
+        <div className="alert alert-success" style={{ flexDirection: "column", alignItems: "flex-start", gap: "10px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <CheckCircle2 size={20} color="#16a34a" />
+            <strong style={{ color: "#16a34a" }}>
+              {isEditing ? "تم تحديث تصريح أجير بنجاح!" : "تم إنشاء وحفظ تصريح أجير بنجاح!"}
+            </strong>
           </div>
-          <div style={{ fontSize: "14px", wordBreak: "break-all" }}>
-            <strong>الرابط العام المباشر: </strong>
+          <div style={{ fontSize: "14px", color: "#1e293b" }}>
+            رقم التصريح: <strong>{createdProfile.permitNumber}</strong> | اسم العامل:{" "}
+            <strong>{createdProfile.workerName}</strong>
+          </div>
+          <div style={{ display: "flex", gap: "10px", marginTop: "4px" }}>
             <a
               href={`/notice-verification/${createdProfile.token}`}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: "#007367", textDecoration: "underline", display: "inline-flex", alignItems: "center", gap: "4px" }}
+              className="btn-primary"
+              style={{ fontSize: "13px", padding: "6px 14px" }}
             >
-              <span>{typeof window !== "undefined" ? window.location.origin : ""}/notice-verification/{createdProfile.token}</span>
+              <span>معاينة صفحة التحقق الرسمية</span>
               <ExternalLink size={14} />
             </a>
           </div>
@@ -235,7 +298,7 @@ export default function AjeerProfileForm({
           <div className="form-group">
             <label className="form-label">
               <span className="seq-num">8</span>
-              رقم المنشأة في وزارة الموارد البشرية *
+              رقم المنشأة من وزارة الموارد البشرية *
             </label>
             <input
               type="text"
@@ -252,7 +315,7 @@ export default function AjeerProfileForm({
           <div className="form-group">
             <label className="form-label">
               <span className="seq-num">9</span>
-              اسم المنشأة المقدمة للخدمة *
+              اسم المنشأة المصرح إليها *
             </label>
             <input
               type="text"
@@ -269,32 +332,53 @@ export default function AjeerProfileForm({
           <div className="form-group full-width">
             <label className="form-label">
               <span className="seq-num">1</span>
-              رقم التصريح / كود التحقق (Permit Number / QR Code) *
+              Permit Number / QR Code *
             </label>
-            <div style={{ display: "flex", gap: "10px" }}>
+            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
               <input
                 type="text"
                 name="permitNumber"
                 className="form-input"
                 value={formData.permitNumber}
-                onChange={handleChange}
-                placeholder="مثال: TW0583162"
+                onChange={handlePermitNumberChange}
+                placeholder="مثال: TW0827326"
                 required
+                style={codeError ? { borderColor: "#ef4444" } : {}}
               />
               <button
                 type="button"
                 className="btn-secondary"
-                onClick={() => {
-                  const rand = Math.floor(100000 + Math.random() * 900000);
-                  setFormData((prev) => ({ ...prev, permitNumber: `TW0${rand}` }));
+                disabled={generatingCode}
+                onClick={generateUniqueCode}
+                style={{
+                  minWidth: "210px",
+                  whiteSpace: "nowrap",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "6px",
+                  fontWeight: 600,
                 }}
               >
-                توليد كود تلقائي
+                {generatingCode ? (
+                  <>
+                    <RefreshCw size={15} className="spin" />
+                    <span>Checking Database...</span>
+                  </>
+                ) : (
+                  "Automatic Code Generation"
+                )}
               </button>
             </div>
-            <span style={{ fontSize: "12px", color: "#64748b", marginTop: "4px" }}>
-              * هذا الرمز سيتم تضمينه في رمز الاستجابة السريعة (QR Code) ورابط التحقق العام
-            </span>
+            {codeError ? (
+              <span style={{ fontSize: "13px", color: "#ef4444", marginTop: "4px", display: "block", fontWeight: 600 }}>
+                {codeError}
+              </span>
+            ) : (
+              <span style={{ fontSize: "12px", color: "#64748b", marginTop: "4px", display: "block" }}>
+                * This code will be included in the QR code and the general verification link
+              </span>
+            )}
           </div>
 
           {/* Additional Options */}
@@ -306,7 +390,7 @@ export default function AjeerProfileForm({
               value={formData.permitType}
               onChange={handleChange}
             >
-              <option value="تصريح إعارة أجير">تصريح إعارة أجير</option>
+              <option value="تصريح إعارة مؤقت">تصريح إعارة مؤقت</option>
               <option value="تصريح عمل مؤقت">تصريح عمل مؤقت</option>
               <option value="تصريح تعاقد مباشر">تصريح تعاقد مباشر</option>
             </select>
@@ -320,9 +404,9 @@ export default function AjeerProfileForm({
               value={formData.status}
               onChange={handleChange}
             >
-              <option value="ساري / فعال">ساري / فعال</option>
+              <option value="ساري / مؤكد">ساري / مؤكد</option>
               <option value="منتهي">منتهي</option>
-              <option value="ملغى">ملغى</option>
+              <option value="ملغي">ملغي</option>
             </select>
           </div>
 
@@ -359,9 +443,9 @@ export default function AjeerProfileForm({
             </button>
           )}
 
-          <button type="submit" className="btn-primary" disabled={loading}>
+          <button type="submit" className="btn-primary" disabled={loading || Boolean(codeError)}>
             <Save size={18} />
-            <span>{loading ? "جاري الحفظ..." : isEditing ? "حفظ التعديلات" : "إنشاء التصريح"}</span>
+            <span>{loading ? "جارٍ الحفظ..." : isEditing ? "حفظ التعديلات" : "إصدار التصريح"}</span>
           </button>
         </div>
       </form>
