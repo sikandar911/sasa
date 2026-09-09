@@ -4,7 +4,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Disable all telemetry and external calls at build time
   env: {
     NEXT_TELEMETRY_DISABLED: "1",
   },

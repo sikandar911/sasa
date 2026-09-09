@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  ajeer-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ajeer_qiwa_web
+    restart: always
+    ports:
+      - "3003:3003"
+    env_file:
+      - .env
+    environment:
+      - PORT=3003
+      - HOSTNAME=0.0.0.0
+      - NODE_ENV=production
+      - NEXT_PUBLIC_BASE_URL=https://ajeer.qiwa-sa.info
