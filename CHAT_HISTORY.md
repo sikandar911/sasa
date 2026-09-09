@@ -234,3 +234,14 @@ current view.. campare with 2nd one which main reference .. need to resize i thi
 3. Sized all 3 social icons in balanced proportions matching the reference screenshot: X logo (1.25rem x 1.3rem), Send icon (1.35rem), and Phone icon (1.25rem).
 4. Committed (d474804) and pushed changes to main branch on GitHub (https://github.com/sikandar911/sasa.git).
 
+
+
+## Prompt Turn: 2026-09-10T02:05:00+06:00
+**User Prompt:**
+what command to change the env
+
+**Actions & Resolution:**
+1. Provided single-command copy-paste cat << 'EOF' > .env script with production PostgreSQL connection string, production domain (https://ajeer.qiwa-sa.info), and secrets.
+2. Removed obsolete ersion: '3.8' from docker-compose.yml to prevent docker compose warning.
+3. Committed ( 75d30d) and pushed to main branch on GitHub (https://github.com/sikandar911/sasa.git).
+
