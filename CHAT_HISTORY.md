@@ -257,3 +257,17 @@ this automatic code generation number shouldnt be matched with previous any ajee
 4. Displays real-time error banner and blocks form submission if any duplicate permit number is detected.
 5. Committed (`4d35632`) and pushed to `main` branch on GitHub (`https://github.com/sikandar911/sasa.git`).
 
+
+## Prompt Turn: 2026-09-10T02:15:00+06:00
+**User Prompt:**
+http://62.169.25.212:3003/login2026ajeer
+the project deployed and trying to login with password: ajeer2026admin but it take a reload and come to the same login page.. i hope there is problem occur during login that maybe regarding middlware. 
+and remove the amdin password from login view.
+
+**Actions & Resolution:**
+1. Identified root cause of reload loop: The session cookie had `secure: process.env.NODE_ENV === "production"`, causing browsers on HTTP (`http://62.169.25.212:3003`) to reject the cookie because the connection was not HTTPS.
+2. Updated `src/app/api/auth/login/route.ts` so `secure` flag is dynamically set only when HTTPS is present (`req.headers.get("x-forwarded-proto") === "https"`), allowing seamless login across both HTTP direct server IP:port and HTTPS domain.
+3. Updated `src/app/login2026ajeer/page.tsx` to use full document navigation `window.location.href = "/admin"` to guarantee cookie propagation.
+4. Removed `(Admin Password)` text from login view, keeping only clean `???? ??????` with placeholder `???? ???? ??????...`.
+5. Committed (`be90b5d`) and pushed to `main` branch on GitHub (`https://github.com/sikandar911/sasa.git`).
+
