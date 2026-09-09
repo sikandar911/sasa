@@ -271,3 +271,26 @@ and remove the amdin password from login view.
 4. Removed `(Admin Password)` text from login view, keeping only clean `???? ??????` with placeholder `???? ???? ??????...`.
 5. Committed (`be90b5d`) and pushed to `main` branch on GitHub (`https://github.com/sikandar911/sasa.git`).
 
+
+## Prompt Turn: 2026-09-10T02:24:00+06:00
+**User Prompt:**
+An error occurred while saving the permit 
+this shows while i am trying to save any ajeer profile .. and no network error come up on the network tab
+
+**Actions & Resolution:**
+1. Identified root cause:
+   - In the Next.js Dockerfile, the Alpine Linux unner stage was missing openssl and libc6-compat, which prevented Prisma's binary query engine (libquery_engine-linux-musl-openssl-3.0.x.so.node) from loading at runtime inside the Docker container.
+   - The initial .env.example contained SQLite (ile:./dev.db), which when copied by deploy.sh conflicted with the PostgreSQL schema provider.
+   - Docker containers running on the same host can encounter hairpin routing issues connecting to the host's public IP; added extra_hosts: ["host.docker.internal:host-gateway"] to docker-compose.yml.
+   - AjeerProfileForm.tsx suppressed technical error details (data.error), displaying only the generic high-level message "حدث خطأ أثناء حفظ التصريح" ("An error occurred while saving the permit").
+2. Fixes implemented:
+   - Added RUN apk add --no-cache libc6-compat openssl in the ase stage of Dockerfile so all stages (deps, builder, runner) have the required Prisma runtime libraries.
+   - Updated docker-compose.yml with extra_hosts: ["host.docker.internal:host-gateway"].
+   - Updated .env.example with the production PostgreSQL URL (host.docker.internal:5433).
+   - Updated deploy.sh to automatically detect and upgrade any ile:./dev.db entry in .env to the production PostgreSQL connection string.
+   - Created diagnostic API route /api/db-check (at http://62.169.25.212:3003/api/db-check) to test database connectivity, measure query latency, and return status.
+   - Updated AjeerProfileForm.tsx to display full diagnostic technical details if data.error is returned.
+   - Added unique random jti nonce to generateAjeerToken in src/lib/token.ts to prevent duplicate token collisions.
+3. Verified production bundle compilation cleanly with 
+pm run build (all 9 routes generated).
+4. Committed (e302e9f) and pushed changes to main branch on GitHub (https://github.com/sikandar911/sasa.git).
