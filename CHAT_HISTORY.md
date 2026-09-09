@@ -173,3 +173,14 @@ fix the footer. on mobile view
 
 
 
+
+
+## Prompt Turn: 2026-09-10T01:42:00+06:00
+**User Prompt:**
+warning: in the working copy of 'node_modules/.prisma/client/edge.js', LF will be replaced by CRLF... fix and push the code into main
+
+**Actions & Resolution:**
+1. Configured local git repository with git config --local core.autocrlf false to prevent CRLF/LF line ending conversion slowdowns.
+2. Created .gitattributes file with * text=auto normalization.
+3. Staged, committed, and pushed changes to main branch on GitHub (https://github.com/sikandar911/sasa.git). Working tree is clean.
+
