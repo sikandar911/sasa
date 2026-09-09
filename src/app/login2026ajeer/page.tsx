@@ -1,13 +1,11 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Lock, Eye, EyeOff, LogIn, ShieldCheck } from "lucide-react";
 import "@/styles/admin.css";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -38,7 +36,8 @@ export default function LoginPage() {
         return;
       }
 
-      router.push("/admin");
+      // Hard redirect ensures cookie is sent with the request to /admin
+      window.location.href = "/admin";
     } catch (err: any) {
       setError("حدث خطأ أثناء الاتصال بالخادم");
       setLoading(false);
@@ -67,7 +66,7 @@ export default function LoginPage() {
 
         <h1 className="login-title">لوحة تحكم منصة أجير</h1>
         <p className="login-subtitle">
-          تسجيل الدخول الإداري لإدارة وتوليد تصاريح أجير
+          تسجيل الدخول لإدارة وتعديل تصاريح أجير
         </p>
 
         {error && <div className="alert-error">{error}</div>}
@@ -76,7 +75,7 @@ export default function LoginPage() {
           <div className="form-group" style={{ marginBottom: "20px" }}>
             <label className="form-label" style={{ justifyContent: "center" }}>
               <Lock size={16} />
-              كلمة المرور الموحدة (Admin Password)
+              كلمة المرور
             </label>
             <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
               <input
@@ -114,11 +113,11 @@ export default function LoginPage() {
             disabled={loading}
           >
             {loading ? (
-              <span>جاري التحقق...</span>
+              <span>جارٍ الدخول...</span>
             ) : (
               <>
                 <LogIn size={18} />
-                <span>دخول لوحة التحكم</span>
+                <span>تسجيل الدخول</span>
               </>
             )}
           </button>
@@ -136,7 +135,7 @@ export default function LoginPage() {
           }}
         >
           <ShieldCheck size={14} color="#059669" />
-          <span>منظومة موثقة ومحمية - Ajeer Verification Platform 2026</span>
+          <span>منصة التحقق الرسمية - Ajeer Verification Platform 2026</span>
         </div>
       </div>
     </div>
