@@ -315,3 +315,24 @@ ginx/ajeer.qiwa-sa.info.conf:
    - Tests configuration with 
 ginx -t and reloads Nginx daemon.
 3. Committed (24bc139) and pushed changes to main branch on GitHub (https://github.com/sikandar911/sasa.git).
+
+## Prompt Turn: 2026-09-10T17:15:00+06:00
+**User Prompt:**
+this system generating QR for Ajeer profile , which is right side QR code... but i want QR code like the left side qr code structure.. fix it
+still showing the right structured QR code after downloading qr which is higher-version qr, i want lower-version qr like left one ...
+
+**Actions & Resolution:**
+1. Diagnosed QR version difference:
+   - Left reference QR code: Version 3 (29x29 modules, 841 cells), Level L error correction, encoding a clean short URL `https://ajeer-qiwa-hrsd-sa.com/employee/621/` (44 chars).
+   - Old system QR code: Version 13 (69x69 modules, 4,761 micro-dots), Level M error correction, encoding a 318-char string containing the raw cryptographic JWT token.
+2. Implemented authentic 29x29 structure:
+   - Changed target verification URL to short permit path `${origin}/employee/${profile.permitNumber}`.
+   - Set QR code options to `errorCorrectionLevel: "L"` and `margin: 2` in both `src/components/ProfileTable.tsx` and `src/app/api/profiles/[id]/qr/route.ts`.
+   - Created `/employee/[id]` route (`src/app/employee/[id]/page.tsx`) to support instant verification by permit number or ID.
+   - Updated `src/app/notice-verification/[token]/page.tsx` to resolve by permit number, ID, or JWT.
+   - Updated preview links in `src/components/AjeerProfileForm.tsx` and `src/components/ProfileTable.tsx`.
+3. Verified locally:
+   - TypeScript check passed (`npx tsc --noEmit`).
+   - Scanned and verified decoded output `https://ajeer.qiwa-sa.info/employee/TW0679924` with `zxing-cpp` and confirmed exact 29x29 grid (Version 3).
+4. Committed (`4bf2eac`) and pushed to `main` branch on GitHub (`https://github.com/sikandar911/sasa.git`).
+5. Noted deployment requirement: The production server (`ajeer.qiwa-sa.info` on `62.169.25.212`) must run `git pull origin main && ./deploy.sh` to update the live Docker container.
