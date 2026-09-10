@@ -396,3 +396,16 @@ add a data on permit type drop down , which will by default selected while creat
 3. Updated existing profile TW0862971 in the database to have permitType: "تصريح إعارة أجير".
 4. Verified TypeScript compilation passed with zero errors (npx tsc --noEmit).
 5. Committed (7d6e84f) and pushed to main branch on GitHub (https://github.com/sikandar911/sasa.git).
+
+## Prompt Turn: 2026-09-10T22:34:00+06:00
+**User Prompt:**
+make all these changes on this version.. that is also git handaled
+D:\Sikku works\safa al jazeera\web qiwa
+
+**Actions & Resolution:**
+1. Verified that D:\Sikku works\safa al jazeera\web qiwa is the official Git-tracked repository on branch main connected to origin (https://github.com/sikandar911/sasa.git).
+2. Performed full content verification between c:\Users\USER\OneDrive\safaaljazeera\qiwa-sa and d:\Sikku works\safa al jazeera\web qiwa:
+   - Verified that all features, components (AjeerProfileForm.tsx with default permitType تصريح إعارة أجير), ProfileTable.tsx, token.ts, /employee/[id] redirect, and /notice-verification/[token] are applied directly to D:\Sikku works\safa al jazeera\web qiwa.
+   - Synced scripts directory to the Git repository.
+3. Verified working tree is 100% clean and fully pushed to origin/main.
+4. Committed and pushed to main branch on GitHub (https://github.com/sikandar911/sasa.git).
