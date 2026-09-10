@@ -44,7 +44,7 @@ export default function AjeerProfileForm({
     establishmentNumber: initialData?.establishmentNumber || "1-4564178",
     establishmentName: initialData?.establishmentName || "شركة ديفباور للمقاولات العامة",
     permitNumber: initialData?.permitNumber || "",
-    permitType: initialData?.permitType || "تصريح إعارة مؤقت",
+    permitType: initialData?.permitType || "تصريح إعارة أجير",
     gender: initialData?.gender || "ذكر",
     birthDate: initialData?.birthDate || "-",
     status: initialData?.status || "ساري / فعال",
@@ -436,6 +436,7 @@ export default function AjeerProfileForm({
               value={formData.permitType}
               onChange={handleChange}
             >
+              <option value="تصريح إعارة أجير">تصريح إعارة أجير</option>
               <option value="تصريح إعارة مؤقت">تصريح إعارة مؤقت</option>
               <option value="تصريح عمل مؤقت">تصريح عمل مؤقت</option>
               <option value="تصريح تعاقد مباشر">تصريح تعاقد مباشر</option>
