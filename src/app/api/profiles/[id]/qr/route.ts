@@ -13,24 +13,22 @@ export async function GET(
 
     if (!profile) {
       return NextResponse.json(
-        { success: false, message: "لم يتم العثور على التصريح" },
+        { success: false, message: "لم يتم العثور على الملف" },
         { status: 404 }
       );
     }
 
-    const origin =
-      process.env.NEXT_PUBLIC_BASE_URL ||
-      req.headers.get("origin") ||
-      `http://${req.headers.get("host") || "localhost:3000"}`;
+    const host = req.headers.get("host") || "";
+    const origin = host.includes("qiwa-sa.info")
+      ? `https://${host}`
+      : (process.env.NEXT_PUBLIC_BASE_URL || "https://ajeer.qiwa-sa.info");
 
-    // Use short clean URL matching the authentic 29x29 Ajeer QR code structure
-    const verificationUrl = `${origin}/employee/${encodeURIComponent(profile.permitNumber)}`;
+    const verificationUrl = `${origin}/notice-verification/${profile.token}`;
 
     const qrBuffer = await QRCode.toBuffer(verificationUrl, {
       type: "png",
-      width: 512,
+      width: 600,
       margin: 2,
-      errorCorrectionLevel: "L",
       color: {
         dark: "#000000",
         light: "#ffffff",
@@ -48,7 +46,7 @@ export async function GET(
   } catch (error: any) {
     console.error("Error generating QR code:", error);
     return NextResponse.json(
-      { success: false, message: "فشل إنشاء رمز الاستجابة السريعة", error: error.message },
+      { success: false, message: "حدث خطأ أثناء إنشاء رمز QR", error: error.message },
       { status: 500 }
     );
   }

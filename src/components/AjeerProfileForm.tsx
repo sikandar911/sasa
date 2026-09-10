@@ -180,9 +180,40 @@ export default function AjeerProfileForm({
             رقم التصريح: <strong>{createdProfile.permitNumber}</strong> | اسم العامل:{" "}
             <strong>{createdProfile.workerName}</strong>
           </div>
-          <div style={{ display: "flex", gap: "10px", marginTop: "4px" }}>
+          <div style={{ width: "100%", marginTop: "6px" }}>
+            <div style={{ fontSize: "12px", color: "#475569", marginBottom: "4px", fontWeight: "600" }}>
+              رابط التحقق الرسمي المباشر (Public Verification URL):
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                backgroundColor: "#ffffff",
+                border: "1px solid #cbd5e1",
+                borderRadius: "6px",
+                padding: "8px 12px",
+                width: "100%",
+                direction: "ltr",
+              }}
+            >
+              <code
+                style={{
+                  fontSize: "12px",
+                  color: "#007367",
+                  wordBreak: "break-all",
+                  flex: 1,
+                  fontFamily: "monospace",
+                  userSelect: "all",
+                }}
+              >
+                {`${typeof window !== "undefined" ? window.location.origin : "https://ajeer.qiwa-sa.info"}/notice-verification/${createdProfile.token}`}
+              </code>
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: "10px", marginTop: "8px", flexWrap: "wrap" }}>
             <a
-              href={`/employee/${encodeURIComponent(createdProfile.permitNumber)}`}
+              href={`/notice-verification/${createdProfile.token}`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"
@@ -191,6 +222,18 @@ export default function AjeerProfileForm({
               <span>معاينة صفحة التحقق الرسمية</span>
               <ExternalLink size={14} />
             </a>
+            <button
+              type="button"
+              className="btn-secondary"
+              style={{ fontSize: "13px", padding: "6px 14px" }}
+              onClick={() => {
+                const fullUrl = `${window.location.origin}/notice-verification/${createdProfile.token}`;
+                navigator.clipboard.writeText(fullUrl);
+                alert("تم نسخ رابط التحقق بنجاح!");
+              }}
+            >
+              <span>نسخ رابط التحقق</span>
+            </button>
           </div>
         </div>
       )}
