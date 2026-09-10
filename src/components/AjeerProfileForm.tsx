@@ -47,7 +47,7 @@ export default function AjeerProfileForm({
     permitType: initialData?.permitType || "تصريح إعارة مؤقت",
     gender: initialData?.gender || "ذكر",
     birthDate: initialData?.birthDate || "-",
-    status: initialData?.status || "ساري / مؤكد",
+    status: initialData?.status || "ساري / فعال",
   });
 
   const [loading, setLoading] = useState(false);
@@ -407,6 +407,7 @@ export default function AjeerProfileForm({
               value={formData.status}
               onChange={handleChange}
             >
+              <option value="ساري / فعال">ساري / فعال</option>
               <option value="ساري / مؤكد">ساري / مؤكد</option>
               <option value="منتهي">منتهي</option>
               <option value="ملغي">ملغي</option>
