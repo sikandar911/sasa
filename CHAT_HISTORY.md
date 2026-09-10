@@ -382,3 +382,17 @@ fix this
 6. Verified production build (
 pm run build) succeeded with code 0 (all 9 routes compiled cleanly).
 7. Committed (3d8598d) and pushed to main branch on GitHub (https://github.com/sikandar911/sasa.git).
+
+## Prompt Turn: 2026-09-10T22:26:00+06:00
+**User Prompt:**
+add a data on permit type drop down , which will by default selected while creating ajeer profile
+: تصريح إعارة أجير
+
+**Actions & Resolution:**
+1. Updated src/components/AjeerProfileForm.tsx:
+   - Set default permitType in initial formData state to "تصريح إعارة أجير".
+   - Added <option value="تصريح إعارة أجير">تصريح إعارة أجير</option> as the top and default option in the permitType dropdown.
+2. Verified prisma/schema.prisma and src/app/api/profiles/route.ts default to "تصريح إعارة أجير".
+3. Updated existing profile TW0862971 in the database to have permitType: "تصريح إعارة أجير".
+4. Verified TypeScript compilation passed with zero errors (npx tsc --noEmit).
+5. Committed (7d6e84f) and pushed to main branch on GitHub (https://github.com/sikandar911/sasa.git).
