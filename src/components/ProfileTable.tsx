@@ -61,23 +61,24 @@ export default function ProfileTable({
     );
   });
 
-  const handleCopy = (token: string, id: string) => {
-    const url = `${window.location.origin}/notice-verification/${token}`;
+  const handleCopy = (permitNumber: string, id: string) => {
+    const url = `${window.location.origin}/employee/${encodeURIComponent(permitNumber)}`;
     navigator.clipboard.writeText(url);
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  // Download PNG QR Code containing the full public verification URL
+  // Download clean, low-density 29x29 PNG QR Code matching authentic Ajeer structure
   const handleDownloadQr = async (profile: ProfileItem) => {
     try {
       setDownloadingId(profile.id);
-      const publicUrl = `${window.location.origin}/notice-verification/${profile.token}`;
+      const publicUrl = `${window.location.origin}/employee/${encodeURIComponent(profile.permitNumber)}`;
 
-      // Generate high-resolution PNG data URL
+      // Generate authentic 29x29 module QR code (Error Correction Level L)
       const dataUrl = await QRCode.toDataURL(publicUrl, {
         width: 600,
         margin: 2,
+        errorCorrectionLevel: "L",
         color: {
           dark: "#000000",
           light: "#ffffff",
@@ -173,7 +174,7 @@ export default function ProfileTable({
             </thead>
             <tbody>
               {filtered.map((profile) => {
-                const publicUrl = `/notice-verification/${profile.token}`;
+                const publicUrl = `/employee/${encodeURIComponent(profile.permitNumber)}`;
                 return (
                   <tr key={profile.id}>
                     <td>
@@ -258,7 +259,7 @@ export default function ProfileTable({
                         {/* 3. Copy Public Link Button */}
                         <button
                           type="button"
-                          onClick={() => handleCopy(profile.token, profile.id)}
+                          onClick={() => handleCopy(profile.permitNumber, profile.id)}
                           className="btn-secondary"
                           style={{ padding: "6px 8px" }}
                           title="نسخ الرابط العام"

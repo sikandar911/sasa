@@ -182,7 +182,7 @@ export default function AjeerProfileForm({
           </div>
           <div style={{ display: "flex", gap: "10px", marginTop: "4px" }}>
             <a
-              href={`/notice-verification/${createdProfile.token}`}
+              href={`/employee/${encodeURIComponent(createdProfile.permitNumber)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"

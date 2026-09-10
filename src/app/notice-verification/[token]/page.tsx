@@ -24,22 +24,33 @@ export const metadata: Metadata = {
 export default async function NoticeVerificationPage({ params }: PageProps) {
   const { token } = params;
 
-  // 1. Try finding by exact token
-  let profile = await prisma.ajeerProfile.findUnique({
-    where: { token },
+  const cleanToken = decodeURIComponent(token).trim();
+
+  // 1. Try finding by token, permitNumber, or id
+  let profile = await prisma.ajeerProfile.findFirst({
+    where: {
+      OR: [
+        { token: cleanToken },
+        { permitNumber: cleanToken },
+        { permitNumber: cleanToken.toUpperCase() },
+        { id: cleanToken },
+      ],
+    },
   });
 
-  // 2. If not found by token, try decoding JWT to find by permit number
+  // 2. If not found, try decoding JWT or checking permit number variations
   if (!profile) {
-    const decoded = decodeAjeerToken(token);
-    if (decoded && decoded.id) {
+    const decoded = decodeAjeerToken(cleanToken);
+    const targetId = decoded?.id || cleanToken.replace(/\D/g, "");
+    if (targetId) {
       profile = await prisma.ajeerProfile.findFirst({
         where: {
           OR: [
-            { permitNumber: decoded.id },
-            { permitNumber: `TW0${decoded.id}` },
-            { permitNumber: `TW${decoded.id}` },
-            { id: decoded.id },
+            { permitNumber: targetId },
+            { permitNumber: `TW0${targetId}` },
+            { permitNumber: `TW${targetId}` },
+            { permitNumber: `TQ${targetId}` },
+            { id: targetId },
           ],
         },
       });

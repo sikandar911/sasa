@@ -23,12 +23,14 @@ export async function GET(
       req.headers.get("origin") ||
       `http://${req.headers.get("host") || "localhost:3000"}`;
 
-    const verificationUrl = `${origin}/notice-verification/${profile.token}`;
+    // Use short clean URL matching the authentic 29x29 Ajeer QR code structure
+    const verificationUrl = `${origin}/employee/${encodeURIComponent(profile.permitNumber)}`;
 
     const qrBuffer = await QRCode.toBuffer(verificationUrl, {
       type: "png",
       width: 512,
       margin: 2,
+      errorCorrectionLevel: "L",
       color: {
         dark: "#000000",
         light: "#ffffff",
